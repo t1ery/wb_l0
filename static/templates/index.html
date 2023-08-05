@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Просмотр данных заказа</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #container {
+            text-align: center;
+        }
+
+        #orderData {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <h1>Просмотр данных заказа</h1>
+    <div>
+        <label for="orderID">Введите ID заказа:</label>
+        <input type="text" id="orderID" name="orderID">
+        <button onclick="getDataByID()">Получить данные</button>
+    </div>
+    <div id="orderData"></div>
+</div>
+
+<script>
+    function getDataByID() {
+        var orderID = document.getElementById("orderID").value;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var orderData = JSON.parse(xhr.responseText);
+                    displayOrderData(orderData);
+                } else {
+                    displayError("Ошибка при получении данных");
+                }
+            }
+        };
+        xhr.open("GET", "/get_data?id=" + orderID, true);
+        xhr.send();
+    }
+
+    function displayOrderData(orderData) {
+        var orderDiv = document.getElementById("orderData");
+        orderDiv.innerHTML = "<pre>" + JSON.stringify(orderData, null, 2) + "</pre>";
+    }
+
+    function displayError(errorMessage) {
+        var orderDiv = document.getElementById("orderData");
+        orderDiv.innerHTML = "<p style='color: red;'>" + errorMessage + "</p>";
+    }
+</script>
+</body>
+</html>
