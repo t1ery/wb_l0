@@ -59,7 +59,7 @@ var TestOrder = models.OrderJSON{
 
 // Вспомогательная функция для создания временной базы данных для тестирования
 func InitTestDatabase(t *testing.T) *sql.DB {
-	db, err := sql.Open("postgres", "host=localhost port=5432 user=postgres password=481516 dbname=wb_l0_test sslmode=disable")
+	db, err := sql.Open("your_name", "host=your_host port=your_port user=your_username password=your_password dbname=your_db_name sslmode=disable")
 	if err != nil {
 		t.Fatalf("Ошибка при создании временной базы данных: %v", err)
 	}
@@ -72,7 +72,6 @@ func InitTestDatabase(t *testing.T) *sql.DB {
 	if err != nil {
 		t.Fatalf("Ошибка при создании таблицы orders: %v", err)
 	}
-	// Создайте другие таблицы, если необходимо
 
 	return db
 }
