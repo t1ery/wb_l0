@@ -10,10 +10,15 @@ import (
 	"github.com/t1ery/wb_l0/internal/models"
 	"github.com/t1ery/wb_l0/internal/service"
 	"github.com/t1ery/wb_l0/test"
+	"sync"
 	"testing"
 )
 
 func TestSubscribeToNATS(t *testing.T) {
+
+	var wg sync.WaitGroup
+	wg.Add(1) // Указываем, что есть 1 операция, которую нужно дождаться
+
 	// Подготовка к тестированию брокера
 	// Создаем экземпляр сервиса и кеша
 	db := test.InitTestDatabase(t)
@@ -24,10 +29,13 @@ func TestSubscribeToNATS(t *testing.T) {
 
 	// Инициализируем брокер
 	InitNATS()
-	SubscribeToNATS(s)
+	SubscribeToNATS(s, &wg)
 
 	// Публикуем тестовый заказ в брокер
 	PublishOrderToNATS(test.TestOrder)
+
+	// Ожидаем завершения асинхронной операции
+	wg.Wait()
 
 	// Проверяем, что данные заказа были сохранены в базе данных и кеше
 	data, err := s.GetDataByID(test.TestOrder.OrderUID)

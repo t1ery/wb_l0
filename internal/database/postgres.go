@@ -26,11 +26,11 @@ func (pg *PostgresDB) SaveData(data models.OrderJSON) error {
 
 // InitDB выполняет инициализацию и подключение к базе данных PostgreSQL и возвращает указатель на созданное подключение.
 func InitDB() *sql.DB {
-	host := "your_host"
-	port := "your_port"
-	user := "your_username"
-	password := "your_password"
-	dbname := "your_db_name"
+	host := "postgres"
+	port := "5432"
+	user := "postgres"
+	password := "481516"
+	dbname := "wb_l0"
 
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	db, err := sql.Open("postgres", connStr)

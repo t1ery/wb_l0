@@ -18,16 +18,16 @@ services:
     ports:
       - "4222:4222"
 
-  my_service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: my_service
-    depends_on:
-      - postgres
-      - nats
-    ports:
-      - "8080:8080"
+#  my_service:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: my_service
+#    depends_on:
+#      - postgres
+#      - nats
+#    ports:
+#      - "8080:8080"
 
 volumes:
   postgres_data:

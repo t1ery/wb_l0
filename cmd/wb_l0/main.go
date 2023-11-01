@@ -5,6 +5,7 @@ import (
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/t1ery/wb_l0/internal/broker"
 	"github.com/t1ery/wb_l0/internal/cache"
@@ -14,6 +15,9 @@ import (
 )
 
 func main() {
+
+	var wg sync.WaitGroup
+
 	// Инициализируем базу данных PostgreSQL.
 	db := database.InitDB()
 	defer db.Close()
@@ -42,7 +46,7 @@ func main() {
 	broker.InitNATS()
 
 	// Подписываемся на канал NATS для получения данных
-	broker.SubscribeToNATS(dataService)
+	broker.SubscribeToNATS(dataService, &wg)
 
 	// Регистрируем обработчик HTTP для корневого пути.
 	http.Handle("/", server.NewHTTPServer(dataService))
