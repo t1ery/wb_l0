@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: 481516
       POSTGRES_DB: wb_l0
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -18,16 +18,16 @@ services:
     ports:
       - "4222:4222"
 
-#  my_service:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    container_name: my_service
-#    depends_on:
-#      - postgres
-#      - nats
-#    ports:
-#      - "8080:8080"
+  my_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_service
+    depends_on:
+      - postgres
+      - nats
+    ports:
+      - "8080:8080"
 
 volumes:
   postgres_data:

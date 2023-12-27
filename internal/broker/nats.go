@@ -16,7 +16,7 @@ var _ *sync.WaitGroup
 // InitNATS устанавливает соединение с сервером NATS.
 func InitNATS() {
 	var err error
-	Nc, err = nats.Connect("nats://localhost:4222")
+	Nc, err = nats.Connect("nats://my_nats:4222")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,6 +27,7 @@ func InitNATS() {
 // Затем данные проходят валидацию, и если они проходят проверку, они сохраняются в кеш и базу данных через сервис s.
 // Если происходит ошибка на любом из этапов, она регистрируется в журнале.
 func SubscribeToNATS(s *service.Service, wg *sync.WaitGroup) {
+	wg.Add(1)
 	Nc.Subscribe("orders", func(msg *nats.Msg) {
 		defer wg.Done() // Указываем, что операция завершена
 		var orderJSON models.OrderJSON

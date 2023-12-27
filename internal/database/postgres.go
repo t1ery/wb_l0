@@ -26,7 +26,7 @@ func (pg *PostgresDB) SaveData(data models.OrderJSON) error {
 
 // InitDB выполняет инициализацию и подключение к базе данных PostgreSQL и возвращает указатель на созданное подключение.
 func InitDB() *sql.DB {
-	host := "postgres"
+	host := "my_postgres"
 	port := "5432"
 	user := "postgres"
 	password := "481516"
